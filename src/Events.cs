@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace AntiRush;
@@ -67,5 +68,57 @@ public partial class AntiRush
         _playerData[controller] = new PlayerData();
 
         return HookResult.Continue;
+    }
+
+    public static bool isBombPlanted = false;
+    [GameEventHandler]
+    public HookResult OnBombPlanted(EventBombPlanted @event, GameEventInfo info)
+    {
+        isBombPlanted = true;
+        return HookResult.Continue;
+
+    }
+
+    [GameEventHandler]
+    public HookResult OnBombDefused(EventBombDefused @event, GameEventInfo info)
+    {
+        isBombPlanted = false;
+        return HookResult.Continue;
+    }
+
+    [GameEventHandler]
+    public HookResult OnBombDetonate(EventBombExploded @event, GameEventInfo info)
+    {
+        isBombPlanted = false;
+        return HookResult.Continue;
+    }
+
+    [GameEventHandler]
+    public HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
+    {
+        isBombPlanted = false;
+        return HookResult.Continue;
+    }
+
+    [GameEventHandler]
+    public HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
+    {
+        isBombPlanted = false;
+        return HookResult.Continue;
+    }
+
+    public static bool[] justSpawned = new bool[64];
+
+    [GameEventHandler]
+    public HookResult OnPlayerSpawned(EventPlayerSpawn @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player is null || player.IsBot || player.IsHLTV || !player.IsValid)
+            return HookResult.Continue;
+
+        justSpawned[player.Index] = true;
+        AddTimer(10.0f, () => justSpawned[player.Index] = false);
+        return HookResult.Continue; 
     }
 }
