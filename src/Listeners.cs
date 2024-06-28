@@ -16,7 +16,7 @@ public partial class AntiRush
             {
                 var isInZone = zone.IsInZone(controller.PlayerPawn.Value!.AbsOrigin!);
 
-                if (!isInZone || justSpawned[controller.Index])
+                if (!isInZone || justSpawned[controller.Index] == true)
                 {
                     zone.Entry.Remove(controller);
                     continue;
