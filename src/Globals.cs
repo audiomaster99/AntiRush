@@ -12,7 +12,7 @@ public partial class AntiRush
     public override string ModuleAuthor => "https://github.com/oscar-wos/AntiRush";
     public Menu.Menu Menu { get; } = new();
 
-    private string Prefix { get; } = $"[{ChatColors.Lime}AntiRush{ChatColors.White}] ";
+    private string Prefix { get; } = $"{ChatColors.Red}ANTICAMP {ChatColors.White}| ";
     private List<Zone> _zones = [];
     private readonly Dictionary<CCSPlayerController, PlayerData> _playerData = [];
 }

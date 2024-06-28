@@ -16,7 +16,7 @@ public partial class AntiRush
             {
                 var isInZone = zone.IsInZone(controller.PlayerPawn.Value!.AbsOrigin!);
 
-                if (!isInZone || justSpawned[controller.Index] == true)
+                if (!isInZone)
                 {
                     zone.Entry.Remove(controller);
                     continue;
@@ -27,8 +27,6 @@ public partial class AntiRush
 
                 if (!zone.Entry.ContainsKey(controller))
                     zone.Entry[controller] = Server.CurrentTime;
-
-                
 
                 if (zone.Delay != 0)
                 {
