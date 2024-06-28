@@ -45,12 +45,13 @@ public partial class AntiRush
                         if (diffString.ToString("0.00") is ("0.00" or "0.01") && diff >= 1.0)
                         {
                             //controller.PrintToChat($"{Prefix}{Localizer["delayRemaining", FormatZoneString(zone.Type), diff.ToString("0")]}");
-                            controller.PrintToCenterHtml(
+                            
+                        }
+                        controller.PrintToCenterHtml(
                                 $"<font class='fontSize-m' color='yellow'>WARNING</font><br>" +
                                 $"<font class='fontSize-s' color='white'>YOU ENTERED NOCAMP ZONE [{diff.ToString("0")}]</font><br>" +
                                 $"<font class='fontSize-l' color='{color}'>{progressBar}</font>"
                             );
-                        }
                     }
                     else
                         bounce = DoAction(controller, zone);
