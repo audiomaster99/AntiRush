@@ -8,7 +8,7 @@ public partial class AntiRush
 {
     private void OnTick()
     {
-        foreach (var controller in Utilities.GetPlayers().Where(player => player is { IsValid: true, PawnIsAlive: true } && _playerData.ContainsKey(player)))
+        foreach (var controller in Utilities.GetPlayers().Where(player => player is { IsValid: true, PawnIsAlive: true } && _playerData.ContainsKey(player) && isBombPlanted == false && justSpawned == false))
         {
             var bounce = false;
 
@@ -32,12 +32,11 @@ public partial class AntiRush
                 {
                     var diff = (zone.Entry[controller] + zone.Delay) - Server.CurrentTime;
 
-                    float progressPercentage = diff / zone.Delay;
-                    string color = GetColorBasedOnProgress(progressPercentage);
-                    string progressBar = GenerateProgressBar(progressPercentage);
-
                     if (diff > 0)
                     {
+                        float progressPercentage = diff / zone.Delay;
+                        string color = GetColorBasedOnProgress(progressPercentage);
+                        string progressBar = GenerateProgressBar(progressPercentage);
                         var diffString = diff % 1;
 
                         if (diffString.ToString("0.00") is ("0.00" or "0.01") && diff >= 1.0)
