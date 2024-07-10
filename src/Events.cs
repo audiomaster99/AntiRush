@@ -11,7 +11,7 @@ public partial class AntiRush
     {
         var controller = @event.Userid;
 
-        if (controller == null || !controller.IsValid)
+        if (controller == null || !controller.IsValid || !controller.PlayerPawn.IsValid || controller.PlayerPawn.IsValid.Value == null)
             return HookResult.Continue;
 
         if (_playerData.TryGetValue(controller, out var value))
