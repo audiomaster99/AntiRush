@@ -134,8 +134,7 @@ public partial class AntiRush : BasePlugin, IPluginConfig<AntiRushConfig>
 
             case ZoneType.Hurt:
                 if (Server.CurrentTime % 1 == 0)
-                    Slap(controller.PlayerPawn.Value, zone.Damage);
-                    controller.ExecuteClientCommand("play player/damage3");
+                    Slap(controller, zone.Damage);
 
                 return;
 
@@ -149,13 +148,20 @@ public partial class AntiRush : BasePlugin, IPluginConfig<AntiRushConfig>
         }
     }
 
-    private static void Slap(CBasePlayerPawn? pawn, int damage = 0)
+    private static void Slap(CCSPlayerController player, int damage = 0)
     {
+        if (player is null)
+            return;
+
+        var pawn = player.PlayerPawn.Value;
+
         if (pawn == null || pawn.Health <= 0)
             return;
 
         pawn.Health -= damage;
         Utilities.SetStateChanged(pawn, "CBaseEntity", "m_iHealth");
+        player.ExecuteClientCommand("play player/damage3");
+
 
         if (pawn.Health <= 0)
         {
