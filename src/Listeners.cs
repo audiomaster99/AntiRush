@@ -8,7 +8,7 @@ public partial class AntiRush
 {
     private void OnTick()
     {
-        foreach (var controller in Utilities.GetPlayers().Where(player => player is { IsValid: true, PawnIsAlive: true } && _playerData.ContainsKey(player) && isBombPlanted == false && justSpawned[player.Index] == false))
+        foreach (var controller in Utilities.GetPlayers().Where(player => player is { IsValid: true, PawnIsAlive: true } && _playerData.ContainsKey(player) && isBombPlanted == false))
         {
             var bounce = false;
 
@@ -45,8 +45,8 @@ public partial class AntiRush
                             
                         }
                         controller.PrintToCenterHtml(
-                                $"<font class='fontSize-m' color='yellow'>WARNING</font><br>" +
-                                $"<font class='fontSize-s' color='white'>YOU ENTERED NOCAMP ZONE [{diff.ToString("0")}]</font><br>" +
+                                $"<font class='fontSize-m' color='yellow'>MOVE!</font><br>" +
+                                $"<font class='fontSize-s' color='white'>NO CAMPING HERE [{diff.ToString("0")}]</font><br>" +
                                 $"<font class='fontSize-l' color='{color}'>{progressBar}</font>"
                             );
                     }

@@ -8,7 +8,7 @@ namespace AntiRush;
 public partial class AntiRush
 {
     public override string ModuleName => "AntiRush";
-    public override string ModuleVersion => "1.0.6";
+    public override string ModuleVersion => "1.0.7";
     public override string ModuleAuthor => "https://github.com/oscar-wos/AntiRush";
     public Menu.Menu Menu { get; } = new();
 
