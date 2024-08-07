@@ -68,18 +68,18 @@ public partial class AntiRush
                 if (zone.Delay != 0)
                 {
                     var diff = (zone.Data[controller].Entry + zone.Delay) - Server.CurrentTime;
-                    float progressPercentage = diff / zone.Delay;
-                    string color = GetColorBasedOnProgress(progressPercentage);
-                    string progressBar = GenerateProgressBar(progressPercentage);
 
                     if (diff > 0)
                     {
+                        float progressPercentage = diff / zone.Delay;
+                        string color = GetColorBasedOnProgress(progressPercentage);
+                        string progressBar = GenerateProgressBar(progressPercentage);
                         var diffString = diff % 1;
 
                         if (diffString.ToString("0.00") is ("0.00" or "0.01") && diff >= 1)
                         {
                         }
-                        
+
                         controller.PrintToCenterHtml(
                             $"<font class='fontSize-m' color='yellow'>MOVE!</font><br>" +
                             $"<font class='fontSize-s' color='white'>NO CAMPING HERE [{diff.ToString("0")}]</font><br>" +
