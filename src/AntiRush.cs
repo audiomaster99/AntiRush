@@ -134,7 +134,8 @@ public partial class AntiRush : BasePlugin, IPluginConfig<AntiRushConfig>
 
             case ZoneType.Hurt:
                 if (Server.CurrentTime % 1 == 0)
-                    controller.Damage(zone.Damage);
+                    Slap(controller.PlayerPawn, zone.Damage);
+                    controller.ExecuteClientCommand("play player/damage3");
 
                 return;
 
@@ -146,5 +147,29 @@ public partial class AntiRush : BasePlugin, IPluginConfig<AntiRushConfig>
                 controller.PlayerPawn.Value!.Teleport(_playerData[controller].SpawnPos, controller.PlayerPawn.Value.EyeAngles, Vector.Zero);
                 return;
         }
+    }
+
+    private static void Slap(CBasePlayerPawn? pawn, int damage = 0)
+    {
+        if (pawn == null || pawn.Health <= 0)
+            return;
+
+        pawn.Health -= damage;
+        Utilities.SetStateChanged(pawn, "CBaseEntity", "m_iHealth");
+
+        if (pawn.Health <= 0)
+        {
+            pawn.CommitSuicide(true, true);
+            return;
+        }
+        
+        Random random = new();
+        Vector vel = new(pawn.AbsVelocity.X, pawn.AbsVelocity.Y, pawn.AbsVelocity.Z);
+
+        vel.X += (random.Next(180) + 50) * (random.Next(2) == 1 ? -1 : 1);
+        vel.Y += (random.Next(180) + 50) * (random.Next(2) == 1 ? -1 : 1);
+        vel.Z += random.Next(200) + 100;
+
+        pawn.Teleport(pawn.AbsOrigin, pawn.AbsRotation, vel);
     }
 }
