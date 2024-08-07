@@ -11,14 +11,19 @@ public partial class AntiRush
         _roundStart = Server.CurrentTime;
         _bombPlanted = false;
 
-        var gameRules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules!;
-        _warmup = gameRules.WarmupPeriod;
+        _gameRules ??= Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules!;
+        _warmup = _gameRules.WarmupPeriod;
 
         if (!Config.DrawZones)
             return HookResult.Continue;
 
         foreach (var zone in _zones)
-            zone.Draw();
+        {
+            zone.Data = [];
+
+            if (Config.DrawZones)
+                zone.Draw();
+        }
 
         return HookResult.Continue;
     }

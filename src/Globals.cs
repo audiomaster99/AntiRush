@@ -20,4 +20,5 @@ public partial class AntiRush
     private bool _bombPlanted;
     private bool _warmup;
     private float[] _countdown = [];
+    private CCSGameRules? _gameRules;
 }
