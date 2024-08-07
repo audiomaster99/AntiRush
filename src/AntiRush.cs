@@ -134,7 +134,7 @@ public partial class AntiRush : BasePlugin, IPluginConfig<AntiRushConfig>
 
             case ZoneType.Hurt:
                 if (Server.CurrentTime % 1 == 0)
-                    Slap(controller.PlayerPawn, zone.Damage);
+                    Slap(controller.PlayerPawn.Value, zone.Damage);
                     controller.ExecuteClientCommand("play player/damage3");
 
                 return;
