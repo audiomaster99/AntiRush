@@ -77,13 +77,15 @@ public partial class AntiRush
                         var diffString = diff % 1;
 
                         if (diffString.ToString("0.00") is ("0.00" or "0.01") && diff >= 1)
-                            {
-                                controller.PrintToCenterHtml(
-                                    $"<font class='fontSize-m' color='yellow'>MOVE!</font><br>" +
-                                    $"<font class='fontSize-s' color='white'>NO CAMPING HERE [{diff.ToString("0")}]</font><br>" +
-                                    $"<font class='fontSize-l' color='{color}'>{progressBar}</font>"
-                                );
-                            }
+                        {
+                        }
+                        
+                        controller.PrintToCenterHtml(
+                            $"<font class='fontSize-m' color='yellow'>MOVE!</font><br>" +
+                            $"<font class='fontSize-s' color='white'>NO CAMPING HERE [{diff.ToString("0")}]</font><br>" +
+                            $"<font class='fontSize-l' color='{color}'>{progressBar}</font>"
+                        );
+                            
                     }
                     else
                         DoAction(controller, zone);
