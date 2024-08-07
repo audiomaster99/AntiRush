@@ -68,13 +68,22 @@ public partial class AntiRush
                 if (zone.Delay != 0)
                 {
                     var diff = (zone.Data[controller].Entry + zone.Delay) - Server.CurrentTime;
+                    float progressPercentage = diff / zone.Delay;
+                    string color = GetColorBasedOnProgress(progressPercentage);
+                    string progressBar = GenerateProgressBar(progressPercentage);
 
                     if (diff > 0)
                     {
                         var diffString = diff % 1;
 
                         if (diffString.ToString("0.00") is ("0.00" or "0.01") && diff >= 1)
-                            controller.PrintToChat($"{Prefix}{Localizer["delayRemaining", zone.ToString(Localizer), diff.ToString("0")]}");
+                            {
+                                controller.PrintToCenterHtml(
+                                    $"<font class='fontSize-m' color='yellow'>MOVE!</font><br>" +
+                                    $"<font class='fontSize-s' color='white'>NO CAMPING HERE [{diff.ToString("0")}]</font><br>" +
+                                    $"<font class='fontSize-l' color='{color}'>{progressBar}</font>"
+                                );
+                            }
                     }
                     else
                         DoAction(controller, zone);
@@ -102,5 +111,38 @@ public partial class AntiRush
             return;
 
         _playerData[controller] = new PlayerData();
+    }
+
+    private string GenerateProgressBar(float progress)
+    {
+        int totalBars = 19;
+        int filledBars = (int)(totalBars * progress);
+
+        string filledPart = new string('█', filledBars);
+        string emptyPart = new string('░', totalBars - filledBars);
+        return $"{filledPart}{emptyPart}";
+    }
+
+    private string GetColorBasedOnProgress(float progress)
+    {
+        // Ensure progress is within the range [0, 1]
+        progress = Math.Clamp(progress, 0, 1);
+
+        int red, green, blue = 0;
+
+        if (progress < 0.5f)
+        {
+            // From red to yellow (progress 0 to 0.5)
+            red = 255;
+            green = (int)(255 * (progress * 2));
+        }
+        else
+        {
+            // From yellow to green (progress 0.5 to 1)
+            red = (int)(255 * (2 * (1 - progress)));
+            green = 255;
+        }
+
+        return $"#{red:X2}{green:X2}{blue:X2}";
     }
 }
